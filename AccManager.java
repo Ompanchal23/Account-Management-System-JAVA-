@@ -1,6 +1,6 @@
 import java.util.*;
 
-class AccManager {
+public class AccManager {
     List<Account> accounts = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
@@ -16,7 +16,7 @@ class AccManager {
 
         Account acc = new Account(name, email, phone, bank);
         accounts.add(acc);
-        System.out.println("Account Created. ID: " + acc.accountId);
+        System.out.println("Account Created Successfully! Your Account ID is: " + acc.accountId);
     }
 
     Account findAccountById(int id) {
@@ -26,15 +26,16 @@ class AccManager {
         return null;
     }
 
-    void menu() {
+    void performOperations() {
         while (true) {
-            System.out.println("\n1. Create Account");
+            System.out.println(" MENU ");
+            System.out.println("1. Create Account");
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Check Balance");
-            System.out.println("5. View Details");
+            System.out.println("5. View Account Details");
             System.out.println("6. Exit");
-            System.out.print("Choose: ");
+            System.out.print("Choose an option: ");
 
             int choice;
             try {
@@ -62,21 +63,24 @@ class AccManager {
                     continue;
                 }
 
-                if (choice == 2) {
-                    System.out.print("Amount to deposit: ");
-                    double amt = Double.parseDouble(sc.nextLine());
-                    acc.deposit(amt);
-                } else if (choice == 3) {
-                    System.out.print("Amount to withdraw: ");
-                    double amt = Double.parseDouble(sc.nextLine());
-                    acc.withdraw(amt);
-                } else if (choice == 4) {
-                    acc.showBalance();
-                } else {
-                    acc.displayDetails();
+                switch (choice) {
+                    case 2:
+                        System.out.print("Enter amount to deposit: ");
+                        acc.deposit(Double.parseDouble(sc.nextLine()));
+                        break;
+                    case 3:
+                        System.out.print("Enter amount to withdraw: ");
+                        acc.withdraw(Double.parseDouble(sc.nextLine()));
+                        break;
+                    case 4:
+                        acc.showBalance();
+                        break;
+                    case 5:
+                        acc.displayDetails();
+                        break;
                 }
             } else if (choice == 6) {
-                System.out.println("Goodbye.");
+                System.out.println("Thank you for using the system.");
                 break;
             } else {
                 System.out.println("Invalid option.");
