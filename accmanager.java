@@ -1,8 +1,6 @@
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
-public class AccountManager {
+class AccManager {
     List<Account> accounts = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
@@ -18,7 +16,7 @@ public class AccountManager {
 
         Account acc = new Account(name, email, phone, bank);
         accounts.add(acc);
-        System.out.println("Account Created Successfully! Your Account ID is: " + acc.accountId);
+        System.out.println("Account Created. ID: " + acc.accountId);
     }
 
     Account findAccountById(int id) {
@@ -28,47 +26,57 @@ public class AccountManager {
         return null;
     }
 
-    void performOperations() {
+    void menu() {
         while (true) {
             System.out.println("\n1. Create Account");
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Check Balance");
-            System.out.println("5. View Account Details");
+            System.out.println("5. View Details");
             System.out.println("6. Exit");
-            System.out.print("Choose an option: ");
-            int choice = sc.nextInt();
+            System.out.print("Choose: ");
+
+            int choice;
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+                continue;
+            }
 
             if (choice == 1) {
-                sc.nextLine(); // clear buffer
                 createAccount();
             } else if (choice >= 2 && choice <= 5) {
                 System.out.print("Enter Account ID: ");
-                int id = sc.nextInt();
+                int id;
+                try {
+                    id = Integer.parseInt(sc.nextLine());
+                } catch (Exception e) {
+                    System.out.println("Invalid ID.");
+                    continue;
+                }
+
                 Account acc = findAccountById(id);
                 if (acc == null) {
                     System.out.println("Account not found.");
                     continue;
                 }
 
-                switch (choice) {
-                    case 2:
-                        System.out.print("Enter amount to deposit: ");
-                        acc.deposit(sc.nextDouble());
-                        break;
-                    case 3:
-                        System.out.print("Enter amount to withdraw: ");
-                        acc.withdraw(sc.nextDouble());
-                        break;
-                    case 4:
-                        acc.showBalance();
-                        break;
-                    case 5:
-                        acc.displayDetails();
-                        break;
+                if (choice == 2) {
+                    System.out.print("Amount to deposit: ");
+                    double amt = Double.parseDouble(sc.nextLine());
+                    acc.deposit(amt);
+                } else if (choice == 3) {
+                    System.out.print("Amount to withdraw: ");
+                    double amt = Double.parseDouble(sc.nextLine());
+                    acc.withdraw(amt);
+                } else if (choice == 4) {
+                    acc.showBalance();
+                } else {
+                    acc.displayDetails();
                 }
             } else if (choice == 6) {
-                System.out.println("Thank you for using the system.");
+                System.out.println("Goodbye.");
                 break;
             } else {
                 System.out.println("Invalid option.");
