@@ -1,46 +1,50 @@
-import java.util.Random;
+class Account {
+    static int idCounter = 1;
 
-public class Account {
-    String name, email, phone, bankName;
-    static int idCounter = 1000;
     int accountId;
-    String accountNumber;
-    double balance = 0.0;
+    String name;
+    String email;
+    String phone;
+    String bank;
+    double balance;
 
-    public Account(String name, String email, String phone, String bankName) {
+    Account(String name, String email, String phone, String bank) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.bankName = bankName;
+        this.bank = bank;
+        this.balance = 0.0;
         this.accountId = idCounter++;
-        this.accountNumber = "AC" + new Random().nextInt(100000);
     }
 
     void deposit(double amount) {
-        balance += amount;
-        System.out.println("Deposited ₹" + amount + ". Current Balance: ₹" + balance);
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+        } else {
+            System.out.println("Invalid amount.");
+        }
     }
 
     void withdraw(double amount) {
-        if (balance >= amount) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
-            System.out.println("Withdrawn ₹" + amount + ". Current Balance: ₹" + balance);
+            System.out.println("Withdrawn: " + amount);
         } else {
-            System.out.println("Insufficient balance.");
+            System.out.println("Insufficient balance or invalid amount.");
         }
     }
 
     void showBalance() {
-        System.out.println("Available Balance: ₹" + balance);
+        System.out.println("Current Balance: " + balance);
     }
 
     void displayDetails() {
         System.out.println("Account ID: " + accountId);
-        System.out.println("Account Number: " + accountNumber);
         System.out.println("Name: " + name);
         System.out.println("Email: " + email);
         System.out.println("Phone: " + phone);
-        System.out.println("Bank: " + bankName);
-        System.out.println("Balance: ₹" + balance);
+        System.out.println("Bank: " + bank);
+        System.out.println("Balance: " + balance);
     }
 }
