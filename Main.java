@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        AccountManager manager = new AccountManager();
+        AccManager manager = new AccManager();
         manager.performOperations();
     }
 }
