@@ -1,74 +1,46 @@
-class AccountManager {
-    List<Account> accounts = new ArrayList<>();
-    Scanner sc = new Scanner(System.in);
+import java.util.Random;
 
-    void createAccount() {
-        System.out.print("Enter Name: ");
-        String name = sc.nextLine();
-        System.out.print("Enter Email: ");
-        String email = sc.nextLine();
-        System.out.print("Enter Phone: ");
-        String phone = sc.nextLine();
-        System.out.print("Enter Bank Name: ");
-        String bank = sc.nextLine();
+public class Account {
+    String name, email, phone, bankName;
+    static int idCounter = 1000;
+    int accountId;
+    String accountNumber;
+    double balance = 0.0;
 
-        Account acc = new Account(name, email, phone, bank);
-        accounts.add(acc);
-        System.out.println("Account Created Successfully! Your Account ID is: " + acc.accountId);
+    public Account(String name, String email, String phone, String bankName) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.bankName = bankName;
+        this.accountId = idCounter++;
+        this.accountNumber = "AC" + new Random().nextInt(100000);
     }
 
-    Account findAccountById(int id) {
-        for (Account acc : accounts) {
-            if (acc.accountId == id) return acc;
-        }
-        return null;
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited ₹" + amount + ". Current Balance: ₹" + balance);
     }
 
-    void performOperations() {
-        while (true) {
-            System.out.println("\n1. Create Account");
-            System.out.println("2. Deposit");
-            System.out.println("3. Withdraw");
-            System.out.println("4. Check Balance");
-            System.out.println("5. View Account Details");
-            System.out.println("6. Exit");
-            System.out.print("Choose an option: ");
-            int choice = sc.nextInt();
-
-            if (choice == 1) {
-                sc.nextLine(); // clear buffer
-                createAccount();
-            } else if (choice >= 2 && choice <= 5) {
-                System.out.print("Enter Account ID: ");
-                int id = sc.nextInt();
-                Account acc = findAccountById(id);
-                if (acc == null) {
-                    System.out.println("Account not found.");
-                    continue;
-                }
-
-                switch (choice) {
-                    case 2:
-                        System.out.print("Enter amount to deposit: ");
-                        acc.deposit(sc.nextDouble());
-                        break;
-                    case 3:
-                        System.out.print("Enter amount to withdraw: ");
-                        acc.withdraw(sc.nextDouble());
-                        break;
-                    case 4:
-                        acc.showBalance();
-                        break;
-                    case 5:
-                        acc.displayDetails();
-                        break;
-                }
-            } else if (choice == 6) {
-                System.out.println("Thank you for using the system.");
-                break;
-            } else {
-                System.out.println("Invalid option.");
-            }
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println("Withdrawn ₹" + amount + ". Current Balance: ₹" + balance);
+        } else {
+            System.out.println("Insufficient balance.");
         }
+    }
+
+    void showBalance() {
+        System.out.println("Available Balance: ₹" + balance);
+    }
+
+    void displayDetails() {
+        System.out.println("Account ID: " + accountId);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Phone: " + phone);
+        System.out.println("Bank: " + bankName);
+        System.out.println("Balance: ₹" + balance);
     }
 }
